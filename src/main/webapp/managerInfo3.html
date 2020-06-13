@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <title>吴文定三</title>
+        <link rel="stylesheet" href="layui/css/layui.css" />
+        <script type="text/javascript" src="layui/layui.js" ></script>
+        <script type="text/javascript" src="js/jquery-1.12.2.min.js" ></script>
+    </head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" style="background-color:black;">
+        <ul class="layui-nav layui-layout-left">
+
+            <li class="layui-nav-item"><a href="" style="color: #00FFFF;">系统首页</a></li>
+            <li class="layui-nav-item"><a href="listVideo.html" target="myframe">学生信息管理</a></li>
+            <li class="layui-nav-item"><a href="listSpeaker.html" target="myframe">教师信息管理</a></li>
+            <li class="layui-nav-item"><a href="listLeave.html" target="myframe">请假记录信息管理</a></li>
+            <li class="layui-nav-item"><a href="listStudent.html" target="myframe">个人中心</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+<!--                    <img src="" width="30" height="30">-->
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img" id="img">
+
+                    <span></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <button data-method="notice" class="layui-btn"><a href="updateAdmin.html">修改密码</a></button>
+                    </dd>
+                    <dd><a href="setUser.html">安全设置</a></dd>
+
+                    <dd>
+                        <button data-method="notice" class="layui-btn"><a href="upload.html">更换头像</a></button>
+                    </dd>
+                </dl>
+            </li>
+<!--            <li class="layui-nav-item"><a href="loginOut.do">退了</a></li>-->
+            <li class="layui-nav-item"><a href="login.html">退了</a></li>
+        </ul>
+    </div>
+    <div class="layui-body" style="left: 0px">
+        <iframe name="myframe" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+    <script src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+
+</div>
+
+
+<span></span>
+</body>
+
+
+<script>
+    layui.use(['element', "layer"], function(){
+        var element = layui.element;
+        var layer = layui.layer;
+        $.ajax({
+            type:"get",
+            url:"query.do",
+            dataType:"json",
+            success:function (data) {
+                if (data.code == 1) {
+                    $("#username").html(data.info.username);
+                    $("img").attr("src", data.info.imgPath)
+                } else {
+                    layer.msg("获取数据异常")
+                }
+            }
+        })
+    });
+
+    function updateHead() {
+        $.ajax({
+            type:"get",
+            url:"query.do",
+            dataType:"json",
+            success:function (data) {
+                if (data.code == 1) {
+                    $("img").attr("src",data.info.imgPath)
+                    console.log(data.info.imgPath)
+                }
+            }
+        })
+    }
+</script>
+</html>

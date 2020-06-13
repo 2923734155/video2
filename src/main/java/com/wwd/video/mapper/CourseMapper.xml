@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wwd.video.dao.CourseDao">
+    <select id="findAll" resultType="com.wwd.video.entity.Course">
+       select u.*,su.subject_name FROM course u,subject su
+       where su.id = subject_id
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.wwd.video.entity.Course2">
+    select * from course where id = #{id}
+    </select>
+
+    <delete id="deleteCourse" parameterType="int">
+     delete from course where id =#{id}
+    </delete>
+
+    <update id="updateCourse" parameterType="com.wwd.video.entity.Course2">
+     update course SET course_title=#{course_title},course_desc=#{course_desc},subject_id = #{subject_id}
+where id = #{id};
+
+    </update>
+
+
+    <insert id="addCourse" parameterType="com.wwd.video.entity.Course2" >
+        insert into course(
+
+        <trim suffixOverrides=",">
+            <if test="course_title != null">
+                course_title,
+            </if>
+            <if test="course_desc != null">
+                course_desc,
+            </if>
+            <if test="subject_id != null">
+                subject_id
+            </if>
+        </trim>
+        ) values (
+        <trim  suffixOverrides=",">
+            <if test="course_title != null">
+                #{course_title},
+            </if>
+            <if test="course_desc != null">
+                #{course_desc},
+            </if>
+            <if test="subject_id != null">
+                #{subject_id}
+            </if>
+        </trim>
+        )
+    </insert>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wwd.video.dao.AdminDao">
+    <select id="findByName" parameterType="com.wwd.video.entity.Admin" resultType="com.wwd.video.entity.Admin">
+          select * from admin where username = #{username}
+    </select>
+
+    <update id="update" parameterType="com.wwd.video.entity.Admin">
+    update admin
+    <set>
+        <if test="username !=null">
+            username = #{username},
+        </if>
+        <if test="password !=null">
+            password = #{password},
+        </if>
+        <if test="roles !=null">
+            roles = #{roles},
+        </if>
+
+        <if test="imgPath !=null">
+            imgPath = #{imgPath}
+        </if>
+
+    </set>
+    where id = #{id};
+    </update>
+</mapper>

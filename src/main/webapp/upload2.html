@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<form action="upload.do" method="post" enctype="multipart/form-data">
+
+    <input type="file" name="upfile"/><br/>
+    <input type="submit" value="上传头像"/>
+
+</form>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.form.min.js"></script>
+</body>
+
+<script>
+    <!-- 上传文件耗时操作  所以使用异步上传文件-->
+    $("form").submit(function () {
+        //这种写法不会异步的，不能异步上传文件
+        // $("form").ajax({
+        // })
+        $("form").ajaxSubmit({
+            type:"post",
+            url:"upload2.do",
+            data:$("form").serialize(),
+            dataType:"json",
+            success:function (data) {
+                alert(data.info)
+                window.parent.updateHead();
+
+            }
+
+        })
+        //因为submit也是一个提交事件
+        return false;
+
+    })
+</script>
+
+</html>

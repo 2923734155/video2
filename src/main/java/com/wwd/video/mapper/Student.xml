@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wwd.video.dao.StudentDao">
+    <select id="LeaveList" resultType="com.wwd.video.entity.Leave">
+   select * from leave0
+    </select>
+
+
+    <select id="queryStudent" parameterType="int" resultType="com.wwd.video.entity.Student">
+        select * from student where st_id =#{id}
+    </select>
+
+    <insert id="addLeave" parameterType="com.wwd.video.entity.Leave">
+    insert into leave0 (st_name,st_grade,st_phone,st_major,begin_time,end_time,reason)
+    values (#{st_name},#{st_grade},#{st_phone},#{st_major},#{begin_time},#{end_time},#{reason})
+
+    </insert>
+
+
+
+
+    <delete id="deleteSpeaker" parameterType="int">
+   delete from speaker where id = #{id}
+    </delete>
+
+    <update id="updateSpeaker" parameterType="com.wwd.video.entity.Speaker" >
+        update speaker set speaker_name=#{speaker_name},speaker_desc=#{speaker_desc},speaker_job=#{speaker_job},
+        head_img_url=#{head_img_url}
+        where id = #{id}
+    </update>
+
+    <select id="querySpeaker" parameterType="int" resultType="com.wwd.video.entity.Speaker">
+        select * from speaker where id =#{id}
+    </select>
+
+    <insert id="addSpeaker" parameterType="com.wwd.video.entity.Speaker">
+    insert into speaker (speaker_name,speaker_desc,speaker_job,head_img_url)
+    values (#{speaker_name},#{speaker_desc},#{speaker_job},#{head_img_url})
+
+    </insert>
+</mapper>

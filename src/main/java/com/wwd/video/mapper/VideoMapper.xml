@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wwd.video.dao.VideoDao">
+    <resultMap id="videoMap" type="com.wwd.video.vo.VideoInfo">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="detail" property="detail"></result>
+        <result column="time" property="time"></result>
+        <result column="speaker_id" property="speaker_id"></result>
+        <result column="course_id" property="course_id"></result>
+        <result column="video_url" property="video_url"></result>
+        <result column="image_url" property="image_url"></result>
+        <result column="play_num" property="play_num"></result>
+    </resultMap>
+
+    <select id="videoList" resultMap="videoMap">
+        select v.id,v.title,v.detail, s.speaker_name,v.time,v.play_num
+        FROM video v
+        INNER JOIN speaker s
+        ON s.id =v.spearker_id
+        <where>
+            <if test="searchInfo !=null">
+                and v.title like "%${searchInfo}%"
+            </if>
+            <if test="speaker_id !=null">
+                and v.spearker_id = #{spearker_id}
+            </if>
+            <if test="course_id !=null">
+                and v.course_id = #{course_id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteVideo" parameterType="int">
+        delete from video where id = #{id}
+    </delete>
+
+    <update id="updateVideo" parameterType="com.wwd.video.vo.VideoInfo">
+        update video set title = #{title}, detail=#{detail},time=#{time},
+        speaker_name = #{speaker_name},play_num = #{play_num}
+        where id = #{id}
+    </update>
+
+    <select id="queryVideo" parameterType="int" resultMap="videoMap">
+   select * from video where id =#{id}
+    </select>
+
+    <insert id="addVideo" parameterType="com.wwd.video.entity.Video">
+        insert into video (
+        <trim suffixOverrides=",">
+        <if test="title !=null">
+        title,
+        </if>
+        <if test="detail !=null">
+        detail,
+        </if>
+        <if test="time !=null">
+        time,
+        </if>
+        <if test="speaker_id !=null">
+        speaker_id,
+        </if>
+        <if test="course_id !=null">
+        course_id,
+        </if>
+        <if test="video_url !=null">
+        video_url,
+        </if>
+        <if test="image_url !=null">
+        image_url,
+        </if>
+        <if test="play_num !=null">
+        play_num
+        </if>
+        </trim>
+        ) values (
+        <trim suffixOverrides=",">
+            <if test="title !=null">
+            #{title},
+            </if>
+            <if test="detail !=null">
+                detail,
+            </if>
+            <if test="time !=null">
+                #{time},
+            </if>
+            <if test="speaker_id !=null">
+                #{speaker_id},
+            </if>
+            <if test="course_id !=null">
+                #{course_id},
+            </if>
+            <if test="video_url !=null">
+                #{video_url},
+            </if>
+            <if test="image_url !=null">
+                #{image_url},
+            </if>
+            <if test="play_num !=null">
+                #{play_num}
+            </if>
+        </trim>
+        );
+    </insert>
+
+    <delete id="deleteSomeVideo" parameterType="map">
+        delete from video where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </delete>
+
+</mapper>
